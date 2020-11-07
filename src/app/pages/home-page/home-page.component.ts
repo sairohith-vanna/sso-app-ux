@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  keycloakAuthDetails: any = {
-    authJWTToken: '',
-    authUser: ''
-  };
+  keycloakAuthDetails: {
+    authJWTToken?: string,
+    authUser?: string
+  } = { authJWTToken: '', authUser: '' }
 
   constructor(private keycloak: KeycloakService) { }
 
