@@ -1,3 +1,4 @@
+import { SampleService } from './../../services/sample.service';
 import { KeycloakService } from 'keycloak-angular';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,9 +12,9 @@ export class HomePageComponent implements OnInit {
   keycloakAuthDetails: {
     authJWTToken?: string,
     authUser?: string
-  } = { authJWTToken: '', authUser: '' }
+  } = { authJWTToken: '', authUser: '' };
 
-  constructor(private keycloak: KeycloakService) { }
+  constructor(private keycloak: KeycloakService, private sampleService: SampleService) { }
 
   ngOnInit(): void {
     this.keycloak.getToken().then((value) => {
@@ -25,6 +26,9 @@ export class HomePageComponent implements OnInit {
       console.log(err);
       this.keycloakAuthDetails.authUser = 'There was an error fetching the username';
     }
+    this.sampleService.getSampleResponse().subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error)
+    });
   }
-
 }
