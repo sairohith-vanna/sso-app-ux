@@ -5,8 +5,9 @@
 export const environment = {
   production: false,
   keycloakConfiguration : {
-    url: 'http://localhost:8080/auth',
-    realm: 'vi-sso-demo',
+    // url: 'http://localhost:8080/auth',
+    url: 'https://ksso.aws.srrclouddev.xyz/auth',
+    realm: 'Vi-sso-demo',
     clientId: 'demoapp-client'
   }
 };
