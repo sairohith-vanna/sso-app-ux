@@ -16,22 +16,42 @@ export class HomePageComponent implements OnInit {
     authUser?: string
   } = { authJWTToken: '', authUser: '' };
 
+  private sampleCSVDownloadData: Blob;
+  csvDataArray: string[] = [];
+
   constructor(private keycloak: KeycloakService, private sampleService: SampleService, private fileSaver: FileSaverService) { }
+
+  /**
+   * Fetches a csv file from the API.
+   */
+  getSampleDownloadFile() {
+    this.sampleService.getSampleDocument().subscribe({
+      next: (response: HttpResponse<any>) => {
+        this.sampleCSVDownloadData = response.body;
+        this.readCSVFile();
+      },
+      error: (error) => console.log(error)
+    });
+  }
+
+  /**
+   * Interprets the csv file as text, and retrieves the second line
+   * containing the values. Removes the surrounding double quotes for the values.
+   */
+  readCSVFile() {
+    this.sampleCSVDownloadData.text().then((csvTextData) => {
+      var csvValuesLineArray = csvTextData.split("\n")[1].split(",");
+      this.csvDataArray = csvValuesLineArray.map((value) => value.replace(/^"|"$/g, ''));
+    });
+  }
 
   /**
    * Downloads a CSV file responded from the backend.
    * The usage of FileSaverService requires installation of ngx-filesaver.
    * It can be installed using npm install file-saver ngx-filesaver --save
    */
-  getSampleDownloadFile()
-  {
-    this.sampleService.getSampleDocument().subscribe({
-      next: (response: HttpResponse<any>) => {
-        console.log(response);
-        this.fileSaver.save(response.body, "credentials.csv");
-      },
-      error: (error) => console.log(error)
-    });
+  downloadSampleFile() {
+    this.fileSaver.save(this.sampleCSVDownloadData, "credentials.csv");
   }
 
   ngOnInit(): void {
@@ -50,5 +70,7 @@ export class HomePageComponent implements OnInit {
       },
       error: (error) => console.log(error)
     });
+
+    this.getSampleDownloadFile();
   }
 }

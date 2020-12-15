@@ -14,6 +14,6 @@ export class SampleService {
   }
 
   getSampleDocument(): Observable<any> {
-    return this.httpClient.get<any>('http://localhost:8081/download', { observe: 'response', responseType: 'blob' as 'json'});
+    return this.httpClient.get<any>('http://localhost:8081/secure/download', { observe: 'response', responseType: 'blob' as 'json'});
   }
 }
