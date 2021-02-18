@@ -5,10 +5,26 @@
 export const environment = {
   production: false,
   keycloakConfiguration : {
-    // url: 'http://localhost:8080/auth',
     url: 'https://ksso.aws.srrclouddev.xyz/auth',
     realm: 'Vi-sso-demo',
     clientId: 'demoapp-client'
+  },
+
+  oidcConfiguration: {
+
+    issuer: 'http://localhost:8081',
+
+    redirectUri: 'http://localhost:4200',
+
+    clientId: 'demoapp-client',
+
+    responseType: 'code',
+
+    scope: 'openid profile email offline_access',
+
+    showDebugInformation: true,
+
+    strictDiscoveryDocumentValidation: false
   }
 };
 
